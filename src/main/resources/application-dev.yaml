@@ -1,0 +1,8 @@
+spring:
+    application:
+        name: SpringbootVirtualThread
+springdoc:
+    swagger-ui:
+        path: /swagger
+        tryItOutEnabled: true
+        displayRequestDuration: true
