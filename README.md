@@ -11,7 +11,7 @@
     * ใน 1 thread OS ซึ่ง jvm สามารถสลับการทำงานใน virtual thread ได้อย่างรวดเร็ว บน platform thread โดยไม่จำเป็นรองานใดงานหนึ่งเสร็จก่อน
 
 ### เปรียบเทียบเป็นตาราง
-คุณสมบัติ |	Platform Threads |	Virtual Threads
+คุณสมบัติ | Platform Threads | Virtual Threads
 ----|----|----|
 การสร้าง Thread | ช้ากว่า (มี Overhead) และใช้ Memory เยอะ | เร็วกว่า (มี Overhead น้อย) และใช้ Memory น้อย
 จำนวน Thread ที่รองรับ | มีข้อจำกัดจาก OS (หลักพัน) | สามารถสร้างได้จำนวนมาก (หลักล้าน)
