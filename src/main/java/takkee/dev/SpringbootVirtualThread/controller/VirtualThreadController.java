@@ -15,14 +15,20 @@ public class VirtualThreadController {
 
     private final VirtualThreadService service;
 
-    @GetMapping(value = "fixedThreadPool")
+    @GetMapping(value = "/fixedThreadPool")
     public Long fixedThreadPool(@RequestParam @Schema(example = "200") int task) {
         return service.fixedThreadPool(task);
     }
     
-    @GetMapping(value = "virtualThreadPerTaskExecutor")
+    @GetMapping(value = "/virtualThreadPerTaskExecutor")
     public Long virtualThreadPerTaskExecutor(@RequestParam @Schema(example = "200") int task) {
         return service.virtualThreadPerTaskExecutor(task);
     }
+
+    @GetMapping("/oneThread")
+    public String oneThread(@RequestParam @Schema(example = "200") int param) {
+        return service.oneThread(param);
+    }
+    
 
 }

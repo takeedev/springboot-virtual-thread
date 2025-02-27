@@ -44,6 +44,15 @@ public class VirtualThreadService {
         return System.currentTimeMillis() - startTime;
     }
 
+    public String oneThread(int param) {
+        Thread thread = new Thread();
+        thread.start();
+        for (int i = 0; i < param; i++) {
+            simulateTask(i);
+        }
+        return "Success";
+    }
+
     public void simulateTask(int taskId) {
         try {
             log.info(Thread.currentThread() + " virsual thread : task ID => " + taskId);
