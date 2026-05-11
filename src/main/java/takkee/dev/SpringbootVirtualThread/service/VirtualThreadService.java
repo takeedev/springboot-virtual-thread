@@ -45,8 +45,8 @@ public class VirtualThreadService {
     }
 
     public String oneThread(int param) {
-        Thread thread = new Thread();
-        thread.start();
+//        Thread thread = new Thread();
+//        thread.start();
         for (int i = 0; i < param; i++) {
             simulateTask(i);
         }
@@ -55,7 +55,7 @@ public class VirtualThreadService {
 
     public void simulateTask(int taskId) {
         try {
-            log.info(Thread.currentThread() + " virsual thread : task ID => " + taskId);
+            log.info(Thread.currentThread() + "Virtual thread : task ID => " + taskId);
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

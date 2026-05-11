@@ -1,6 +1,9 @@
 spring:
     application:
         name: SpringbootVirtualThread
+    threads:
+        virtual:
+            enabled: true
 springdoc:
     swagger-ui:
         path: /swagger
