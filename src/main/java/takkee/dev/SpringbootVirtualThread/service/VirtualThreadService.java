@@ -16,6 +16,7 @@ public class VirtualThreadService {
 
     public long fixedThreadPool(int task) {
         long startTime = System.currentTimeMillis();
+        log.info("Thread Count {}", threadCount);
         log.info("newFixedThreadPool");
         CompletableFuture<?>[] futures = new CompletableFuture[task];
         for (int i = 0; i < task; i++) {
@@ -45,8 +46,8 @@ public class VirtualThreadService {
     }
 
     public String oneThread(int param) {
-//        Thread thread = new Thread();
-//        thread.start();
+        Thread thread = new Thread();
+        thread.start();
         for (int i = 0; i < param; i++) {
             simulateTask(i);
         }
