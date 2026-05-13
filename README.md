@@ -27,3 +27,10 @@ Blocking | ถ้า Thread ติด Block → รอเสร็จก่อ�
 
 
 ### Example code
+### enable virtual thread
+```yaml
+spring:
+  threads:
+    virtual:
+      enabled: true
+```
