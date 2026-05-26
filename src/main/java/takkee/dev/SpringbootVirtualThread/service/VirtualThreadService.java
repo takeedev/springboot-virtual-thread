@@ -1,8 +1,11 @@
 package takkee.dev.SpringbootVirtualThread.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +30,20 @@ public class VirtualThreadService {
             }, executorService);
         }
         CompletableFuture.allOf(futures).join();
+        return System.currentTimeMillis() - startTime;
+    }
+
+    public long threadVirtual(int task) throws InterruptedException {
+        long startTime = System.currentTimeMillis();
+        List<Thread> threads = new ArrayList<>();
+        for (int i = 0; i < task; i++) {
+            int taskId = i;
+            Thread thread = Thread.startVirtualThread(() -> simulateTask(taskId));
+            threads.add(thread);
+        }
+        for (Thread thread : threads) {
+            thread.join();
+        }
         return System.currentTimeMillis() - startTime;
     }
 
