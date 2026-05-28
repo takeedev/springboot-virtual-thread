@@ -29,6 +29,10 @@ public class VirtualThreadController {
     public String oneThread(@RequestParam @Schema(example = "200") int param) {
         return service.oneThread(param);
     }
-    
+
+    @GetMapping("/addThread")
+    public long addThread(@RequestParam @Schema(example = "200") int param) throws InterruptedException {
+        return service.threadVirtual(param);
+    }
 
 }
