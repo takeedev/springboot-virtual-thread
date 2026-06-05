@@ -27,13 +27,13 @@ public class VirtualThreadController {
 
     @GetMapping("/oneThread")
     public Long oneThread(@RequestParam @Schema(example = "200") int param) {
-        return Long.valueOf(service.oneThread(param));
+        return Long.valueOf(service.oneThreadSync(param));
     }
 
     @GetMapping("/addThread")
     public long addThread(@RequestParam @Schema(example = "200") int param) {
         try {
-            return service.threadVirtual(param);
+            return service.virtualThreadManual(param);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Thread interrupted", e);
