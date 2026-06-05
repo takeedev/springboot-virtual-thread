@@ -1,7 +1,7 @@
-# Virtual-thread ใน java 21
 
-## Virtual Threads คืออะไร
-#### เป็นฟีเจอร์ที่ปรับปรุงใน JAVA 21 ช่วยให้การทำงานของ Thread มีประสิทธืภาพมากขึ้น โดยการลด Overhead ที่เกิดจากการสร้างและจัดการ thread ของ OS level (plateform thread) ซึ่ง Virtual Thead จะช่วยให้การสร้างและจัดการ thread หลายตัวมีประสิทธิภาพมากขึ้น เข้ามาแทนที่ Platform Thread
+# SpringBootVirtualThread
+
+โปรเจกต์ตัวอย่างสำหรับการทดสอบและเปรียบเทียบประสิทธิภาพระหว่าง **Platform Threads (Fixed Thread Pool)** และ **Virtual Threads** ในสภาพแวดล้อมของ Spring Boot โดยใช้ฟีเจอร์ใหม่จาก Java 21+
 
 ## Virtual Threads และ platform thread ต่างกันอย่างไร
     
@@ -34,3 +34,28 @@ spring:
     virtual:
       enabled: true
 ```
+
+## ฟีเจอร์หลัก
+- เปรียบเทียบการประมวลผลแบบ Blocking Task ระหว่าง Traditional Thread Pool และ Virtual Threads
+- สาธิตวิธีการใช้งาน `Executors.newVirtualThreadPerTaskExecutor()`
+- แสดงให้เห็นถึงความแตกต่างของจำนวน Thread ที่ใช้เมื่อต้องจัดการกับงานจำนวนมาก (Scalability)
+
+## โครงสร้างการทดสอบใน `VirtualThreadService`
+โปรเจกต์นี้มีการทดสอบ 4 รูปแบบหลัก:
+1. **Fixed Thread Pool**: ใช้ Platform Threads จำนวนจำกัด (ตามจำนวน CPU Core)
+2. **Manual Virtual Threads**: การสร้าง Virtual Thread โดยตรงผ่าน `Thread.startVirtualThread()`
+3. **Virtual Thread Per Task Executor**: การใช้ ExecutorService ที่ออกแบบมาสำหรับ Virtual Threads โดยเฉพาะ
+4. **Single Thread (Sync)**: การรันแบบ Sequential เพื่อเป็นฐานในการเปรียบเทียบ (Baseline)
+
+## วิธีการติดตั้งและรัน
+### สิ่งที่ต้องการ (Prerequisites)
+- Java 21 หรือสูงกว่า (จำเป็นสำหรับการใช้งาน Virtual Threads)
+- Maven หรือ Gradle
+
+## การเปรียบเทียบผลลัพธ์ (Sample Analysis)
+เมื่อรัน Task จำนวนมาก (เช่น 100+ tasks) ที่มีการ `Thread.sleep()` หรือการเชื่อมต่อ Database/Network:
+- **Fixed Thread Pool**: จะเห็นว่าเวลาที่ใช้จะสูงขึ้นหากจำนวน task เกินจำนวน thread ที่กำหนด เพราะระบบต้องรอคิว (Context Switching ของ OS)
+- **Virtual Threads**: จะสามารถจัดการงานจำนวนมากได้พร้อมกันอย่างรวดเร็ว เนื่องจาก Virtual Threads มีน้ำหนักเบาและถูกจัดการโดย JVM ไม่ใช่ OS โดยตรง
+
+## หมายเหตุ
+โปรเจกต์นี้เน้นไปที่การศึกษาเชิงเทคนิคของ Project Loom ใน Java เพื่อให้เห็นภาพความแตกต่างของการจัดการ Thread ในยุคปัจจุบัน
