@@ -10,7 +10,7 @@ import takkee.dev.SpringbootVirtualThread.service.VirtualThreadService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/virthread")
+@RequestMapping(value = "/virtual")
 public class VirtualThreadController {
 
     private final VirtualThreadService service;
@@ -19,20 +19,24 @@ public class VirtualThreadController {
     public Long fixedThreadPool(@RequestParam @Schema(example = "200") int task) {
         return service.fixedThreadPool(task);
     }
-    
+
     @GetMapping(value = "/virtualThreadPerTaskExecutor")
     public Long virtualThreadPerTaskExecutor(@RequestParam @Schema(example = "200") int task) {
         return service.virtualThreadPerTaskExecutor(task);
     }
 
     @GetMapping("/oneThread")
-    public String oneThread(@RequestParam @Schema(example = "200") int param) {
-        return service.oneThread(param);
+    public Long oneThread(@RequestParam @Schema(example = "200") int param) {
+        return Long.valueOf(service.oneThread(param));
     }
 
     @GetMapping("/addThread")
-    public long addThread(@RequestParam @Schema(example = "200") int param) throws InterruptedException {
-        return service.threadVirtual(param);
+    public long addThread(@RequestParam @Schema(example = "200") int param) {
+        try {
+            return service.threadVirtual(param);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Thread interrupted", e);
+        }
     }
-
 }
